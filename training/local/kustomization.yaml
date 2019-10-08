@@ -12,13 +12,9 @@ configurations:
 # TBD (jinchihe) Need to update the image once
 # the issue addressed: kubeflow/testing/issues/373
 images:
-- name: ravi-train
-  newName: gcr.io/pramod-255108/ravi-train
-  newTag: "1570466784"
 - name: training-image
-  newName: gcr.io/pramod-255108/ravi-train
-  newTag: "1570466784"
-
+  newName: gcr.io/kubeflow-examples/mnist/model
+  newTag: v20190111-v0.2-148-g313770f
 
 vars:
 - fieldref:
@@ -27,14 +23,14 @@ vars:
   objref:
     apiVersion: v1
     kind: ConfigMap
-    name: ravi-train
+    name: mnist-map-training
 - fieldref:
     fieldPath: data.pvcMountPath
   name: pvcMountPath
   objref:
     apiVersion: v1
     kind: ConfigMap
-    name: ravi-train
+    name: mnist-map-training
     
 patchesJson6902:
 - path: Chief_patch.yaml
@@ -43,7 +39,3 @@ patchesJson6902:
     kind: TFJob
     name: $(trainingName)
     version: v1beta2
-configMapGenerator:
-- literals:
-  - name=ravi-train-dist
-  name: ravi-train
