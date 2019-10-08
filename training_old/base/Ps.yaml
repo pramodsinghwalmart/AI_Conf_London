@@ -1,0 +1,22 @@
+apiVersion: kubeflow.org/v1beta2
+kind: TFJob
+metadata:
+  name: $(trainingName)
+  namespace: kubeflow
+spec:
+  tfReplicaSpecs:
+    Ps:
+      replicas: %numPs%
+      template:
+        spec:
+          containers:
+          - name: tensorflow
+            command:
+            - /usr/bin/python
+            - /tmp/model.py
+            
+            env:
+           
+            image: ravi-new-train
+            workingDir: /tmp
+          restartPolicy: OnFailure

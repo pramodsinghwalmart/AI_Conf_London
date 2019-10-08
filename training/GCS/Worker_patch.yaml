@@ -11,7 +11,7 @@
       secret:
         secretName: $(secretName)
 - op: add
-  path: /spec/tfReplicaSpecs/Worker/template/spec/containers/0/env/-
+  path: /spec/tfReplicaSpecs/Worker/template/spec/containers/0/env/
   value:
     name: GOOGLE_APPLICATION_CREDENTIALS
     value: $(GOOGLE_APPLICATION_CREDENTIALS)

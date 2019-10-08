@@ -12,9 +12,9 @@ configurations:
 # TBD (jinchihe) Need to update the image once
 # the issue addressed: kubeflow/testing/issues/373
 images:
-- name: training-image
-  newName: gcr.io/kubeflow-examples/mnist/model
-  newTag: v20190111-v0.2-148-g313770f
+- name: ravi-new-train
+  newName: gcr.io/pramod-255108/ravi-new-train
+  newTag: 1570532881
 
 vars:
 - fieldref:
@@ -23,21 +23,21 @@ vars:
   objref:
     apiVersion: v1
     kind: ConfigMap
-    name: mnist-map-training
+    name: nokia
 - fieldref:
     fieldPath: data.secretName
   name: secretName
   objref:
     apiVersion: v1
     kind: ConfigMap
-    name: mnist-map-training
+    name: nokia
 - fieldref:
     fieldPath: data.secretMountPath
   name: secretMountPath
   objref:
     apiVersion: v1
     kind: ConfigMap
-    name: mnist-map-training
+    name: nokia
 
 patchesJson6902:
 - path: Chief_patch.yaml

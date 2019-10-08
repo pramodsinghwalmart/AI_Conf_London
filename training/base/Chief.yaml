@@ -13,7 +13,7 @@ spec:
           - name: tensorflow
             command:
             - /usr/bin/python
-            - /opt/model.py
+            - /tmp/model.py
             - --tf-model-dir=$(modelDir)
             - --tf-export-dir=$(exportDir)
             - --tf-train-steps=$(trainSteps)
@@ -31,5 +31,5 @@ spec:
             - name: learningRate
               value: $(learningRate)
             image: training-image
-            workingDir: /opt
+            workingDir: /tmp
           restartPolicy: OnFailure
