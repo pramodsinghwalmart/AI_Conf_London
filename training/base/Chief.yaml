@@ -13,23 +13,10 @@ spec:
           - name: tensorflow
             command:
             - /usr/bin/python
-            - /opt/model.py
-            - --tf-model-dir=$(modelDir)
-            - --tf-export-dir=$(exportDir)
-            - --tf-train-steps=$(trainSteps)
-            - --tf-batch-size=$(batchSize)
-            - --tf-learning-rate=$(learningRate)
+            - /tmp/train.py
+            
             env:
-            - name: modelDir
-              value: $(modelDir)
-            - name: exportDir
-              value: $(exportDir)
-            - name: trainSteps
-              value: $(trainSteps)
-            - name: batchSize
-              value: $(batchSize)
-            - name: learningRate
-              value: $(learningRate)
-            image: training-image
-            workingDir: /opt
+            
+            image: ravi-train
+            workingDir: /tmp
           restartPolicy: OnFailure
