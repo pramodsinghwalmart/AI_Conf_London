@@ -23,21 +23,21 @@ vars:
   objref:
     apiVersion: v1
     kind: ConfigMap
-    name: nokia
+    name: attention
 - fieldref:
     fieldPath: data.secretName
   name: secretName
   objref:
     apiVersion: v1
     kind: ConfigMap
-    name: nokia
+    name: attention
 - fieldref:
     fieldPath: data.secretMountPath
   name: secretMountPath
   objref:
     apiVersion: v1
     kind: ConfigMap
-    name: nokia
+    name: attention
 
 patchesJson6902:
 - path: Chief_patch.yaml

@@ -19,39 +19,39 @@ vars:
   objref:
     apiVersion: v1
     kind: ConfigMap
-    name: nokia
+    name: attention
 - fieldref:
     fieldPath: data.modelDir
   name: modelDir
   objref:
     apiVersion: v1
     kind: ConfigMap
-    name: nokia
+    name: attention
 - fieldref:
     fieldPath: data.exportDir
   name: exportDir
   objref:
     apiVersion: v1
     kind: ConfigMap
-    name: nokia
+    name: attention
 - fieldref:
     fieldPath: data.trainSteps
   name: trainSteps
   objref:
     apiVersion: v1
     kind: ConfigMap
-    name: nokia
+    name: attention
 - fieldref:
     fieldPath: data.batchSize
   name: batchSize
   objref:
     apiVersion: v1
     kind: ConfigMap
-    name: nokia
+    name: attention
 - fieldref:
     fieldPath: data.learningRate
   name: learningRate
   objref:
     apiVersion: v1
     kind: ConfigMap
-    name: nokia
+    name: attention
