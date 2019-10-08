@@ -1,0 +1,13 @@
+#This container contains your model and any helper scripts specific to your model.
+FROM tensorflow/tensorflow:1.12.0
+
+RUN mkdir /tmp/data
+ADD /data/data_train.csv /tmp/data/data_train.csv
+ADD /data/data_test.csv /tmp/data/data_test.csv
+ADD /data/columns_data.json /tmp/data/columns_data.json
+RUN mkdir /tmp/export
+ADD model.py /opt/model.py
+RUN chmod +x /opt/model.py
+
+ENTRYPOINT [ "python" ]
+CMD ["/opt/model.py"]
