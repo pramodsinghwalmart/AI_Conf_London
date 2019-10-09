@@ -17,21 +17,10 @@ ADD attention.py /tmp/attention.py
 ADD data_helper.py /tmp/data_helper.py
 ADD logger_config.yml  /tmp/logger_config.yml
 ADD logger.py /tmp/logger.py
-ADD model_helper.py /tmp/model_helper.py
+#ADD model_helper.py /tmp/model_helper.py
 ADD model.py /tmp/model.py
 ADD train.py /tmp/train.py
 RUN chmod +x /tmp/train.py
 RUN mkdir /tmp/export
 ENTRYPOINT [ "python" ]
 CMD ["/tmp/train.py"]
-
-# FROM continuumio/anaconda3:5.3.0
-
-# RUN conda create -n uphenv python=3.6.5 pandas scikit-learn 
-# #move data files to tmp/data folder
-# RUN mkdir /tmp/data
-# RUN pip install pandas 
-# RUN pip install numpy
-# RUN pip install matplotlib 
-# RUN pip install tensorflow==2.0.0-alpha0
-# ADD /data/summary.txt /tmp/data/summary.txt 

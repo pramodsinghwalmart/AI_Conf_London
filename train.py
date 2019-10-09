@@ -7,8 +7,8 @@ Original file is located at
     https://colab.research.google.com/drive/1MAHVkjrfeZqOK0So7D5UxcF4zMq2_nRP
 """
 
-import tensorflow.keras as keras
-from tensorflow.python.keras.utils import to_categorical
+from tensorflow import keras as keras
+from tensorflow.keras.utils import to_categorical
 import numpy as np
 import os, sys
 from data_helper import read_data, sents2sequences
