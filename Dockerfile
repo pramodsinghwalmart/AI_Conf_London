@@ -1,7 +1,7 @@
 #This container contains your model and any helper scripts specific to your model.
-FROM continuumio/anaconda3:5.3.0
+FROM tensorflow/tensorflow:2.0.0-py3-jupyter
 RUN mkdir /tmp/data
-RUN conda create -n uphenv python=3.6.5 pandas scikit-learn 
+#RUN conda create -n uphenv python=3.6.5 pandas scikit-learn 
 #move data files to tmp/data folder
 
 RUN pip install pandas 
@@ -20,6 +20,7 @@ ADD logger.py /tmp/logger.py
 #ADD model_helper.py /tmp/model_helper.py
 ADD model.py /tmp/model.py
 ADD train.py /tmp/train.py
+RUN pip install PyYAML
 RUN chmod +x /tmp/train.py
 RUN mkdir /tmp/export
 ENTRYPOINT [ "python" ]
