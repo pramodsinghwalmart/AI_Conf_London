@@ -14,7 +14,7 @@ configurations:
 images:
 - name: training-image
   newName: gcr.io/pramod-255108/ravi-new-train
-  newTag: 1570532881
+  newTag: latest
 
 vars:
 - fieldref:
