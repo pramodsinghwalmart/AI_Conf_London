@@ -12,7 +12,7 @@ spec:
           containers:
           - name: tensorflow
             command:
-            - /usr/bin/python
+            - python3
             - /tmp/train.py
             - --tf-model-dir=$(modelDir)
             - --tf-export-dir=$(exportDir)

@@ -23,5 +23,5 @@ ADD train.py /tmp/train.py
 RUN pip install PyYAML
 RUN chmod +x /tmp/train.py
 RUN mkdir /tmp/export
-ENTRYPOINT [ "python" ]
+ENTRYPOINT [ "python3" ]
 CMD ["/tmp/train.py"]
