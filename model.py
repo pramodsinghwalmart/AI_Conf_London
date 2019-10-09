@@ -1,5 +1,5 @@
-from tensorflow.python.keras.layers import Input, GRU, Dense, Concatenate, TimeDistributed
-from tensorflow.python.keras.models import Model
+from tensorflow.keras.layers import Input, GRU, Dense, Concatenate, TimeDistributed
+from tensorflow.keras.models import Model
 from attention import AttentionLayer
 
 
