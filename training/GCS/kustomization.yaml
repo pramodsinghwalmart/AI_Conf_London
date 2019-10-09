@@ -12,7 +12,7 @@ configurations:
 # TBD (jinchihe) Need to update the image once
 # the issue addressed: kubeflow/testing/issues/373
 images:
-- name: ravi-new-train
+- name: training-image
   newName: gcr.io/pramod-255108/ravi-new-train
   newTag: 1570532881
 
