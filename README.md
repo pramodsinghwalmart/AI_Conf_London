@@ -38,16 +38,19 @@ Capsule Text Classification
 Step-By-Step Guide for Running CapsNet on Kubeflow
 1. Get the Code
 Clone the github repo
+
 <code>
 git clone git clone https://github.com/pramodsinghwalmart/AI_Conf_London.git
 </code>
 
 navigate to code directory
+
 <code>
 cd AI_Conf_London
 </code>
 
 set current working directory
+
 <code>
 WORKING_DIR=$(pwd)
 </code>
@@ -69,9 +72,9 @@ Setup environment variables
 Use one-click deploy interface by GCP to setup kubeflow using https://deploy.kubeflow.cloud/#/ . Just fill Deployment Name and Project ID and select appropriate GCP Zone. You can select Login with username and password to access Kubeflow service.Once the deployment is completed. You can connect to the cluster.
 
 Connecting to the cluster
-<code>gcloud container clusters get-credentials ${DEPLOYMENT_NAME} \
-  --project ${PROJECT_ID} \
-  --zone ${ZONE}
+<code>gcloud container clusters get-credentials ${DEPLOYMENT_NAME} \</code>
+<code>--project ${PROJECT_ID} \</code>
+<code>--zone ${ZONE}</code>
   </code>
 
 Set context
