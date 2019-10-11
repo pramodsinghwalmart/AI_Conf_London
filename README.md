@@ -39,38 +39,45 @@ Step-By-Step Guide for Running CapsNet on Kubeflow
 1. Get the Code
 Clone the github repo
 <code>
-git clone git clone https://github.com/pramodsinghwalmart/AI_Conf_London.gitnano
+git clone git clone https://github.com/pramodsinghwalmart/AI_Conf_London.git
 </code>
 
 navigate to code directory
+<code>
 cd AI_Conf_London
+</code>
 
-set current working directoery
+set current working directory
+<code>
 WORKING_DIR=$(pwd)
+</code>
 
 2. Setup Kubeflow in GCP
 Make sure you have gcloud SDK is installed and pointing to the right GCP PROJECT. You can use gcloud init to perform this action.
 
+<code>
 gcloud components install kubectl
+</code>
 
 Setup environment variables
 
-export DEPLOYMENT_NAME=<CHOOSE_ANY_DEPLOYMENT_NAME>
-export PROJECT_ID=<YOUR_GCP_PROJECT_ID>
-export ZONE=<YOUR_GCP_ZONE>
-gcloud config set project ${PROJECT_ID}
-gcloud config set compute/zone ${ZONE}
+<code>export DEPLOYMENT_NAME=<CHOOSE_ANY_DEPLOYMENT_NAME></code>
+<code>export PROJECT_ID=<YOUR_GCP_PROJECT_ID></code>
+<code>export ZONE=<YOUR_GCP_ZONE></code>
+<code>gcloud config set project ${PROJECT_ID}</code>
+<code>gcloud config set compute/zone ${ZONE}</code>
 Use one-click deploy interface by GCP to setup kubeflow using https://deploy.kubeflow.cloud/#/ . Just fill Deployment Name and Project ID and select appropriate GCP Zone. You can select Login with username and password to access Kubeflow service.Once the deployment is completed. You can connect to the cluster.
 
 Connecting to the cluster
-gcloud container clusters get-credentials ${DEPLOYMENT_NAME} \
+<code>gcloud container clusters get-credentials ${DEPLOYMENT_NAME} \
   --project ${PROJECT_ID} \
   --zone ${ZONE}
+  </code>
 
 Set context
 
-kubectl config set-context $(kubectl config current-context) --namespace=kubeflow
-kubectl get all
+<code>kubectl config set-context $(kubectl config current-context) --namespace=kubeflow</code>
+<code>kubectl get all</code>
 
 3. Experiments in Jupyter Notebook ( Single/ Multiple GPUs)
 If you want to use GPUs for your training process. You can add GPU backed Node pool in the Kubernetes Cluster
@@ -78,56 +85,49 @@ If you want to use GPUs for your training process. You can add GPU backed Node p
 4. Install Kustomize 
 
 
-cd kustomize
-mv kustomize_2.0.3_linux_amd64 kustomize
-chmod u+x kustomize
-cd ..
+<code>cd kustomize</code>
+<code>mv kustomize_2.0.3_linux_amd64 kustomize</code>
+<code>chmod u+x kustomize</code>
+<code>cd ..</code>
 
 //add ks command to path
 
-PATH=$PATH:$(pwd)/kustomize
+<code>PATH=$PATH:$(pwd)/kustomize</code>
 
 // check if kustomize working 
-kustomize version
+<code>kustomize version</code>
+
 
 
 
 
 //allow docker to access our GCR registry
-gcloud auth configure-docker --quiet
-
-cd jupyter-image && make build PROJECT_ID=$PROJECT_ID && cd ..
-cd jupyter-image && make push PROJECT_ID=$PROJECT_ID && cd ..
-
-Use Notebooks in Ambassador UI for running your experiments. Select custom image and set the image name that you just created. You can set the resources and GPUs.
-
-Upload the notebook available capsnet-text-classification.ipynb in notebooks subfolder inside the code directory.
+<code>gcloud auth configure-docker --quiet
 
 
 6. 
-cd training/GCS
-export BUCKET=${PROJECT}-${DEPLOYMENT_NAME}-bucket
-gsutil mb -c regional -l us-central1 gs://${BUCKET}
+<code>cd training/GCS</code>
+<code>export BUCKET=${PROJECT}-${DEPLOYMENT_NAME}-bucket</code>
+<code>gsutil mb -c regional -l us-central1 gs://${BUCKET}</code>
 
 
 
 5. Build Train Image
+
 Build Image
-export TRAIN_IMG_PATH=gcr.io/${PROJECT}/${DEPLOYMENT_NAME}-train:latest
+<code>export TRAIN_IMG_PATH=gcr.io/${PROJECT}/${DEPLOYMENT_NAME}-train:latest</code>
 
 
 //build the tensorflow model into a container
 //container is tagged with its eventual path on GCR, but it stays local for now
-docker build $WORKING_DIR -t $TRAIN_IMG_PATH -f $WORKING_DIR/Dockerfile
+<code>docker build $WORKING_DIR -t $TRAIN_IMG_PATH -f $WORKING_DIR/Dockerfile</code>
 
 Check locally
-docker run -it ${TRAIN_IMG_PATH}
-Push Docker image to GCR
-//allow docker to access our GCR registry
-gcloud auth configure-docker --quiet
+<code>docker run -it ${TRAIN_IMG_PATH}</code>
+
 
 //push container to GCR
-docker push ${TRAIN_IMG_PATH}
+<code>docker push ${TRAIN_IMG_PATH}</code>
 
 6. Training on Kubeflow
 
@@ -140,25 +140,26 @@ Set Google Application Credentials
 Train on the cluster
 // set the parameters for this job
 
-kustomize edit add configmap attention   --from-literal=name=pramod
+<code>kustomize edit add configmap attention   --from-literal=name=pramod</code>
 
-kustomize edit set image training-image=${TRAIN_IMG_PATH}
-
-
-kustomize edit add configmap attention --from-literal=trainSteps=200
-kustomize edit add configmap attention --from-literal=batchSize=100
-kustomize edit add configmap attention --from-literal=learningRate=0.01
-
-kustomize edit add configmap attention --from-literal=modelDir=gs://${BUCKET}
-kustomize edit add configmap attention --from-literal=exportDir=gs://${BUCKET}/export
+<code>kustomize edit set image training-image=${TRAIN_IMG_PATH}</code>
 
 
-kustomize edit add configmap attention --from-literal=secretName=user-gcp-sa
-kustomize edit add configmap attention --from-literal=secretMountPath=/var/secrets
+<code>kustomize edit add configmap attention --from-literal=trainSteps=200</code>
+<code>kustomize edit add configmap attention --from-literal=batchSize=100</code>
+<code>kustomize edit add configmap attention --from-literal=learningRate=0.01</code>
+
+<code>kustomize edit add configmap attention --from-literal=modelDir=gs://${BUCKET}</code>
+<code>kustomize edit add configmap attention --from-literal=exportDir=gs://${BUCKET}/export</code>
 
 
-kustomize edit add configmap attention --from-literal=GOOGLE_APPLICATION_CREDENTIALS=/var/secrets/user-gcp-sa.json
+<code>kustomize edit add configmap attention --from-literal=secretName=user-gcp-sa</code>
+<code>kustomize edit add configmap attention --from-literal=secretMountPath=/var/secrets</code>
 
-kustomize build .
-kustomize build . |kubectl apply -f -
 
+<code>kustomize edit add configmap attention --from-literal=GOOGLE_APPLICATION_CREDENTIALS=/var/secrets/user-gcp-sa.json</code>
+
+<code>kustomize build .</code>
+<code>kustomize build . |kubectl apply -f -</code>
+
+<code>kubectl logs -f pramod-chief-0</code>
