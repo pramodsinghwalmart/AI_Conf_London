@@ -112,5 +112,6 @@ if __name__ == '__main__':
     print("trained")
 #save model
     full_model.save('summarizer.h5')
+    #full_model.save('/tmp/', save_format='tf')
     print("model saved")
 
