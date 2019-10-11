@@ -38,7 +38,9 @@ Capsule Text Classification
 Step-By-Step Guide for Running CapsNet on Kubeflow
 1. Get the Code
 Clone the github repo
-<code>git clone git clone https://github.com/pramodsinghwalmart/AI_Conf_London.gitnano</code>.
+<code>
+git clone git clone https://github.com/pramodsinghwalmart/AI_Conf_London.gitnano
+</code>
 
 navigate to code directory
 cd AI_Conf_London
