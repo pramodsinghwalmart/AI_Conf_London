@@ -21,6 +21,13 @@ vars:
     kind: ConfigMap
     name: attention
 - fieldref:
+    fieldPath: data.imagename
+  name: traingingimageName
+  objref:
+    apiVersion: v1
+    kind: ConfigMap
+    name: attention
+- fieldref:
     fieldPath: data.modelDir
   name: modelDir
   objref:

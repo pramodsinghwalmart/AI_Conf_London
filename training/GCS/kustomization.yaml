@@ -13,7 +13,7 @@ configurations:
 # the issue addressed: kubeflow/testing/issues/373
 images:
 - name: training-image
-  newName: gcr.io/pramod-255108/ravi-new-train
+  newName: $(trainingimageName)
   newTag: latest
 
 vars:
@@ -46,3 +46,4 @@ patchesJson6902:
     kind: TFJob
     name: $(trainingName)
     version: v1beta2
+
