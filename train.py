@@ -15,6 +15,7 @@ from data_helper import read_data, sents2sequences
 from model import summary_model
 #from model_helper import plot_attention_weights
 from logger import get_logger
+from tensorflow.python.lib.io import file_io
 
 project_path = os.getcwd()
 if project_path not in sys.path:
@@ -114,4 +115,11 @@ if __name__ == '__main__':
     full_model.save('summarizer.h5')
     #full_model.save('/tmp/', save_format='tf')
     print("model saved")
+
+    #Copy summarizer.h5 over to Google Cloud Storage
+    with file_io.FileIO('summarizer.h5', mode='r') as input_f:
+        with file_io.FileIO('gs://attention-255608-newlondon-bucket/summarizer.h5', mode='w+') as output_f:
+            output_f.write(input_f.read())
+            print("Saved summarizer.h5 to GCS")
+
 
