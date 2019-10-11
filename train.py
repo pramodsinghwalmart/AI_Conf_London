@@ -117,9 +117,10 @@ if __name__ == '__main__':
     print("model built")
 
     #Copy summarizer.h5 over to Google Cloud Storage
-    with file_io.FileIO('summarizer.h5', mode='r', errors='ignore') as input_f:
-        with file_io.FileIO('gs://attention-255608-newlondon-bucket/summarizer.h5', mode='w+', errors='ignore') as output_f:
+    with file_io.FileIO('summarizer.h5', mode='r+') as input_f:
+        with file_io.FileIO('gs://attention-255608-newlondon-bucket/summarizer.h5', mode='w+') as output_f:
             output_f.write(input_f.read())
             print("Saved summarizer.h5 to GCS")
 
 
+   
