@@ -1,24 +1,33 @@
-### Attention Network for Text Summarization on Kubeflow
-Presented at O'Reilly Artificial Intelligence Conference London :  "Deep learning and attention networks all the way to production" [https://conferences.oreilly.com/artificial-intelligence/ai-eu/public/schedule/detail/78072]
+# Attention Network for Text Summarization on Kubeflow
 
-Highlights of the session :
+Presented at O'Reilly Artificial Intelligence Conference London :  "Deep learning and attention networks all the way to production" https://conferences.oreilly.com/artificial-intelligence/ai-eu/public/schedule/detail/78072
 
-Overview of Attention Networks ( What and Why )
-Set Up GCP Environment
-    Attention Networks for text summarization
-    How to leverage Kubeflow for Industrialization
-Setup Kubeflow on GCP with Multi GPU Support enabled
-Use TensorFlow 2.0 to create attention network 
-Use Kubeflow Notebook Server for training on K8S cluster 
-Use kfserving deployment and prediction 
-   Challenges and Future Work
+## Highlights of the session :
+
+<ol>
+<li>Overview of Attention Networks ( What and Why )</li>
+<li>Set Up GCP Environment</li>
+<li>Attention Networks for text summarization</li>
+<li>How to leverage Kubeflow for Industrialization</li>
+<ol>
+<li>Setup Kubeflow on GCP with Multi GPU Support enabled</li>
+<li>Use TensorFlow 2.0 to create attention network</li>
+<li>Use Kubeflow Notebook Server for training on K8S cluster</li>
+</ol>
+</li>
+<li>Challenges and Future Work</li>
+</ol>
 
 
-Research Papers
+   
+
+
+## Research Papers
 
 Text Summarization Using Attention Networks
 Investigating Capsule Networks with Dynamic Routing for Text Classification
-Github Repos
+
+## Github Repos
 
 We have modified and adapted from following implementation and focused more on Kubeflow implementation for scalibility and performance.
 
@@ -29,7 +38,7 @@ Capsule Text Classification
 Step-By-Step Guide for Running CapsNet on Kubeflow
 1. Get the Code
 Clone the github repo
-git clone git clone https://github.com/pramodsinghwalmart/AI_Conf_London.git
+<code>git clone git clone https://github.com/pramodsinghwalmart/AI_Conf_London.gitnano</code>.
 
 navigate to code directory
 cd AI_Conf_London
