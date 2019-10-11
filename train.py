@@ -16,6 +16,20 @@ from model import summary_model
 #from model_helper import plot_attention_weights
 from logger import get_logger
 from tensorflow.python.lib.io import file_io
+import argparse
+
+def parse_arguments():
+  parser = argparse.ArgumentParser()
+  
+  parser.add_argument('--tf-export-dir',
+                      type=str,
+                      default='gs://attention-255608-newlondon-bucket',
+                      help='GCS path or local directory to export model')
+  
+
+  args = parser.parse_known_args()[0]
+  return args
+
 
 project_path = os.getcwd()
 if project_path not in sys.path:
@@ -116,9 +130,10 @@ if __name__ == '__main__':
     #full_model.save('/tmp/', save_format='tf')
     print("model built")
 
+    args = parse_arguments()
     #Copy summarizer.h5 over to Google Cloud Storage
     with file_io.FileIO('summarizer.h5', mode='rb') as input_f:
-        with file_io.FileIO('gs://attention-255608-newlondon-bucket'+'/summarizer.h5', mode='w+') as output_f:
+        with file_io.FileIO(args.tf_export_dir+'/summarizer.h5', mode='w+') as output_f:
             output_f.write(input_f.read())
             print("Saved summarizer.h5 to GCS")
 
