@@ -39,9 +39,9 @@ Capsule Text Classification
 
 1. Access the Code - Clone the github repo
 
-        <code>
+    <code>
         git clone git clone https://github.com/pramodsinghwalmart/AI_Conf_London.git
-        </code>
+    </code>
 
 2. Navigate to code directory
 
