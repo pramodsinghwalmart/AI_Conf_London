@@ -62,7 +62,7 @@ Capsule Text Classification
     <code>
         WORKING_DIR=$(pwd)
     </code>
-    
+
     <code>
         gcloud components install kubectl
     </code>
@@ -283,9 +283,11 @@ Capsule Text Classification
         gcloud deployment-manager --project=${PROJECT} deployments delete ${DEPLOYMENT_NAME}
     </code>
 
+
     <code>
         gcloud container images delete gcr.io/$PROJECT/${DEPLOYMENT_NAME}-train:latest
     </code>
+
 
     <code>
         gsutil rm -r gs://${BUCKET_NAME}
