@@ -35,7 +35,7 @@ Capsnet with Pure Keras
 Capsnet for NLP with Keras
 Capsule Text Classification
 
-# Step-By-Step Guide for Running CapsNet on Kubeflow
+# Step-By-Step Guide for Running  Attention Network on Kubeflow
 
 1. Access the Code - Clone the github repo
 
@@ -279,16 +279,17 @@ Capsule Text Classification
 
 17. Clean up resources 
 
+    Delete the deployement 
     <code>
         gcloud deployment-manager --project=${PROJECT} deployments delete ${DEPLOYMENT_NAME}
     </code>
 
-
+    Delete the docker image 
     <code>
         gcloud container images delete gcr.io/$PROJECT/${DEPLOYMENT_NAME}-train:latest
     </code>
 
-
+    Delete the bucket 
     <code>
         gsutil rm -r gs://${BUCKET_NAME}
     </code>
