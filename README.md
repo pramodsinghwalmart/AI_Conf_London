@@ -60,30 +60,36 @@ Capsule Text Classification
     Make sure you have gcloud SDK is installed and pointing to the right GCP PROJECT. You can use gcloud init to perform this action.
     
     <code>
-        WORKING_DIR=$(pwd)
-    </code>
-
-    <code>
         gcloud components install kubectl
     </code>
 
 5. Setup environment variables
-
+    '''
     <code>
         export PROJECT=<PROJECT_ID>
     </code>
+
 
     <code>
         export DEPLOYMENT_NAME=kubeflow
     </code>
 
+
+
     <code>
         export ZONE=us-central1-a
     </code>
 
+
+
+
+
     <code>
         gcloud config set project ${PROJECT}
     </code>
+
+
+
 
     <code>
         gcloud config set compute/zone ${ZONE}
@@ -111,6 +117,9 @@ Capsule Text Classification
         kubectl config set-context $(kubectl config current-context) --namespace=kubeflow
     </code>
 
+
+
+
     <code>
         kubectl get all
     </code>
@@ -123,13 +132,22 @@ Capsule Text Classification
         cd kustomize
     </code>
 
+
+
+
     <code>
         mv kustomize_2.0.3_linux_amd64 kustomize
     </code>
 
+
+
+
     <code>
         chmod u+x kustomize
     </code>
+
+
+
 
     <code>
         cd ..
@@ -137,11 +155,17 @@ Capsule Text Classification
 
     add ks command to path
 
+
+
     <code>
         PATH=$PATH:$(pwd)/kustomize
     </code>
 
+
+
     check if kustomize working 
+
+
 
     <code>
         kustomize version
@@ -161,9 +185,14 @@ Capsule Text Classification
         cd training/GCS
     </code>
 
+
+
     <code>
         export BUCKET=${PROJECT}-${DEPLOYMENT_NAME}-bucket
     </code>
+
+
+
 
     <code>
         gsutil mb -c regional -l us-central1 gs://${BUCKET}
@@ -199,25 +228,41 @@ Capsule Text Classification
         kustomize edit add configmap attention   --from-literal=name=attention-training
     </code>
 
+
+
     Configure the custom training image
+
+
+
 
     <code>
         kustomize edit add configmap  attention  --from-literal=imagename=gcr.io/${PROJECT}/${DEPLOYMENT_NAME}-train
     </code>
 
+
+
+
     <code>
         kustomize edit set image training-image=${TRAIN_IMG_PATH}
     </code>
 
+
+
     Set the training parameters (training steps, batch size and learning rate). Note - We are going to declare these parameters using kustomize but we are not using any of these for this tutorial purpose.
+
+
 
     <code>
         kustomize edit add configmap attention --from-literal=trainSteps=200
     </code>
 
+
+
     <code>
         kustomize edit add configmap attention --from-literal=batchSize=100
     </code>
+
+
 
     <code>
         kustomize edit add configmap attention --from-literal=learningRate=0.01
@@ -225,9 +270,14 @@ Capsule Text Classification
 
     Configure parameters and save the model to Cloud Storage
 
+
+
     <code>
         kustomize edit add configmap attention --from-literal=modelDir=gs://${BUCKET}
     </code>
+
+
+
 
     <code>
         kustomize edit add configmap attention --from-literal=exportDir=gs://${BUCKET}/export
@@ -236,29 +286,46 @@ Capsule Text Classification
 14. Check the permissions for your training component 
     You need to ensure that your Python code has the required permissions to read/write to your Cloud Storage bucket. Kubeflow solves this by creating a user service account within your project as a part of the deployment. You can use the following command to list the service accounts for your Kubeflow deployment
 
+
+
     <code>
         gcloud iam service-accounts list | grep ${DEPLOYMENT_NAME}
     </code>
 
+
+
+
     Kubeflow granted the user service account the necessary permissions to read and write to your storage bucket. Kubeflow also added a Kubernetes secret named user-gcp-sa to your cluster, containing the credentials needed to authenticate as this service account within the cluster
+
 
     <code>
         kubectl describe secret user-gcp-sa
     </code>
 
+
+
     To access your storage bucket from inside the train container, you must set the GOOGLE_APPLICATION_CREDENTIALS environment variable to point to the JSON file contained in the secret. Set the variable by passing the following parameters
+
+
 
     <code>
         kustomize edit add configmap attention --from-literal=secretName=user-gcp-sa
     </code>
 
+
+
+
     <code>
         kustomize edit add configmap attention --from-literal=secretMountPath=/var/secrets
     </code>
 
+
+
+
     <code>
         kustomize edit add configmap attention --from-literal=GOOGLE_APPLICATION_CREDENTIALS=/var/secrets/user-gcp-sa.json
     </code>
+
 
 15. Train the model on GKE
 
@@ -284,10 +351,15 @@ Capsule Text Classification
         gcloud deployment-manager --project=${PROJECT} deployments delete ${DEPLOYMENT_NAME}
     </code>
 
+
+
     Delete the docker image 
     <code>
         gcloud container images delete gcr.io/$PROJECT/${DEPLOYMENT_NAME}-train:latest
     </code>
+
+
+
 
     Delete the bucket 
     <code>
