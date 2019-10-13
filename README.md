@@ -47,13 +47,15 @@ git clone https://github.com/pramodsinghwalmart/AI_Conf_London.git
 2. Navigate to code directory
 
 ```
-    cd AI_Conf_London
+cd AI_Conf_London
+
 ```
 
 3. set current working directory
 
 ```
-    WORKING_DIR=$(pwd)
+WORKING_DIR=$(pwd)
+
 ```
 
 4. Setup Kubeflow in GCP
@@ -61,33 +63,37 @@ git clone https://github.com/pramodsinghwalmart/AI_Conf_London.git
 Make sure you have gcloud SDK is installed and pointing to the right GCP PROJECT. You can use gcloud init to perform this action.
     
 ```
-    gcloud components install kubectl
+gcloud components install kubectl
+
 ```
 
 5. Setup environment variables
     
 ```
-    export PROJECT=<PROJECT_ID>
+export PROJECT=<PROJECT_ID>
+
+```
+
+```
+export DEPLOYMENT_NAME=kubeflow
+
+```
+
+```
+export ZONE=us-central1-a
+
 ```
 
 
 ```
-    export DEPLOYMENT_NAME=kubeflow
+gcloud config set project ${PROJECT}
+
 ```
 
 
 ```
-    export ZONE=us-central1-a
-```
+gcloud config set compute/zone ${ZONE}
 
-
-```
-    gcloud config set project ${PROJECT}
-```
-
-
-```
-    gcloud config set compute/zone ${ZONE}
 ```
 
 
@@ -96,21 +102,24 @@ Make sure you have gcloud SDK is installed and pointing to the right GCP PROJECT
 7. Connecting to the cluster
 
 ```
-    gcloud container clusters get-credentials ${DEPLOYMENT_NAME} \
-    --project ${PROJECT_ID} \
-    --zone ${ZONE}
+gcloud container clusters get-credentials ${DEPLOYMENT_NAME} \
+--project ${PROJECT_ID} \
+--zone ${ZONE}
+
 ```
 
 
 8. Set context
 
 ```
-    kubectl config set-context $(kubectl config current-context) --namespace=kubeflow
+kubectl config set-context $(kubectl config current-context) --namespace=kubeflow
+
 ```
 
 
 ```
-    kubectl get all
+kubectl get all
+
 ```
 
 
@@ -118,27 +127,31 @@ Make sure you have gcloud SDK is installed and pointing to the right GCP PROJECT
     Kubeflow makes use of kustomize to help manage deployments.We have the version 2.0.3 of kustomize available in the folder already.This tutorial does not work with later versions of kustomize, due to bug /kustomize/issues/1295.
 
 ```
-    cd kustomize
+cd kustomize
+
 ```
 
 ```
-    mv kustomize_2.0.3_linux_amd64 kustomize
+mv kustomize_2.0.3_linux_amd64 kustomize
+
 ```
 
 ```
-    chmod u+x kustomize
-```
-
+chmod u+x kustomize
 
 ```
-    cd ..
+
+```
+cd ..
+
 ```
 
 add ks command to path
 
 
 ```
-    PATH=$PATH:$(pwd)/kustomize
+PATH=$PATH:$(pwd)/kustomize
+
 ```
 
 
@@ -146,29 +159,34 @@ check if kustomize working
 
 
 ```
-    kustomize version
+kustomize version
+
 ```
 
 
 10. Allow docker to access our GCR registry
 
 ```
-    gcloud auth configure-docker --quiet
+gcloud auth configure-docker --quiet
+
 ```
 
 
 11. Create GCS bucket for model storage
 
 ```
-    cd training/GCS
+cd training/GCS
+
 ```
 
 ```
-    export BUCKET=${PROJECT}-${DEPLOYMENT_NAME}-bucket
+export BUCKET=${PROJECT}-${DEPLOYMENT_NAME}-bucket
+
 ```
 
 ```
-    gsutil mb -c regional -l us-central1 gs://${BUCKET}
+gsutil mb -c regional -l us-central1 gs://${BUCKET}
+
 ```
 
 
@@ -176,20 +194,23 @@ check if kustomize working
 12. Build Training Image using docker and push to GCR
 
 ```
-    export TRAIN_IMG_PATH=gcr.io/${PROJECT}/${DEPLOYMENT_NAME}-train:latest
+export TRAIN_IMG_PATH=gcr.io/${PROJECT}/${DEPLOYMENT_NAME}-train:latest
+
 ```
 
 
 build the tensorflow model into a container
 
 ```
-    docker build $WORKING_DIR -t $TRAIN_IMG_PATH -f $WORKING_DIR/Dockerfile
+docker build $WORKING_DIR -t $TRAIN_IMG_PATH -f $WORKING_DIR/Dockerfile
+
 ```
 
 push container to GCR
 
 ```
-    docker push ${TRAIN_IMG_PATH}
+docker push ${TRAIN_IMG_PATH}
+
 ```
 
 
@@ -198,7 +219,8 @@ push container to GCR
 Give the job a name so that you can identify it later
 
 ```
-    kustomize edit add configmap attention   --from-literal=name=attention-training
+kustomize edit add configmap attention   --from-literal=name=attention-training
+
 ```
 
 
@@ -207,12 +229,14 @@ Configure the custom training image
 
 
 ```
-    kustomize edit add configmap  attention  --from-literal=imagename=gcr.io/${PROJECT}/${DEPLOYMENT_NAME}-train
+kustomize edit add configmap  attention  --from-literal=imagename=gcr.io/${PROJECT}/${DEPLOYMENT_NAME}-train
+
 ```
 
 
 ```
-    kustomize edit set image training-image=${TRAIN_IMG_PATH}
+kustomize edit set image training-image=${TRAIN_IMG_PATH}
+
 ```
 
 
@@ -221,29 +245,35 @@ Set the training parameters (training steps, batch size and learning rate). Note
 
 
 ```
-    kustomize edit add configmap attention --from-literal=trainSteps=200
+kustomize edit add configmap attention --from-literal=trainSteps=200
+
 ```
 
 
 ```
-    kustomize edit add configmap attention --from-literal=batchSize=100
+kustomize edit add configmap attention --from-literal=batchSize=100
+
 ```
 
 
 ```
-    kustomize edit add configmap attention --from-literal=learningRate=0.01
+kustomize edit add configmap attention --from-literal=learningRate=0.01
+
 ```
 
 Configure parameters and save the model to Cloud Storage
 
 
+
 ```
-    kustomize edit add configmap attention --from-literal=modelDir=gs://${BUCKET}
+kustomize edit add configmap attention --from-literal=modelDir=gs://${BUCKET}
+
 ```
 
 
 ```
-    kustomize edit add configmap attention --from-literal=exportDir=gs://${BUCKET}/export
+kustomize edit add configmap attention --from-literal=exportDir=gs://${BUCKET}/export
+
 ```
 
 14. Check the permissions for your training component 
@@ -252,7 +282,8 @@ Configure parameters and save the model to Cloud Storage
 
 
 ```
-    gcloud iam service-accounts list | grep ${DEPLOYMENT_NAME}
+gcloud iam service-accounts list | grep ${DEPLOYMENT_NAME}
+
 ```
 
 
@@ -260,7 +291,8 @@ Kubeflow granted the user service account the necessary permissions to read and 
 
 
 ```
-    kubectl describe secret user-gcp-sa
+kubectl describe secret user-gcp-sa
+
 ```
 
 
@@ -268,31 +300,37 @@ To access your storage bucket from inside the train container, you must set the 
 
 
 ```
-    kustomize edit add configmap attention --from-literal=secretName=user-gcp-sa
+kustomize edit add configmap attention --from-literal=secretName=user-gcp-sa
+
 ```
 
 ```
-    kustomize edit add configmap attention --from-literal=secretMountPath=/var/secrets
+kustomize edit add configmap attention --from-literal=secretMountPath=/var/secrets
+
 ```
 
 
 ```
-    kustomize edit add configmap attention --from-literal=GOOGLE_APPLICATION_CREDENTIALS=/var/secrets/user-gcp-sa.json
+kustomize edit add configmap attention --from-literal=GOOGLE_APPLICATION_CREDENTIALS=/var/secrets/user-gcp-sa.json
+
 ```
 
 
 15. Train the model on GKE
 
 ```
-    kustomize build .
+kustomize build .
+
 ```
 
 ```
-    kustomize build . |kubectl apply -f -
+kustomize build . |kubectl apply -f -
+
 ```
 
 ```
-    kubectl logs -f attention-training-chief-0
+kubectl logs -f attention-training-chief-0
+
 ```
 
 16. Check the saved model at the GCS bucket/export location 
@@ -301,18 +339,21 @@ To access your storage bucket from inside the train container, you must set the 
 
 Delete the deployement 
 ```
-    gcloud deployment-manager --project=${PROJECT} deployments delete ${DEPLOYMENT_NAME}
+gcloud deployment-manager --project=${PROJECT} deployments delete ${DEPLOYMENT_NAME}
+
 ```
 
 
 Delete the docker image 
 ```
-    gcloud container images delete gcr.io/$PROJECT/${DEPLOYMENT_NAME}-train:latest
+gcloud container images delete gcr.io/$PROJECT/${DEPLOYMENT_NAME}-train:latest
+
 ```
 
 
 Delete the bucket 
 ```
-    gsutil rm -r gs://${BUCKET_NAME}
+gsutil rm -r gs://${BUCKET_NAME}
+
 ```
 
