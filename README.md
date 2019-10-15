@@ -32,11 +32,11 @@ Presented at O'Reilly Artificial Intelligence Conference London :  "Deep learnin
 
 ## Research Papers
 
-[Pascal Vincent, Hugo Larochelle, Isabelle Lajoie, Yoshua Bengio, and Pierre-
+1. Pascal Vincent, Hugo Larochelle, Isabelle Lajoie, Yoshua Bengio, and Pierre-
 Antoine Manzagol. “Stacked denoising autoencoders: Learning useful representations
-in a deep network with a local denoising criterion”]
+in a deep network with a local denoising criterion”
 
-[Alan Akbik, Duncan Blythe and Roland Vollgraf ,”Contextual String Embeddings for Sequence Labeling” ]
+2. Alan Akbik, Duncan Blythe and Roland Vollgraf ,”Contextual String Embeddings for Sequence Labeling” 
 
 
 
