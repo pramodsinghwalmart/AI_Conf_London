@@ -210,7 +210,7 @@ docker build $WORKING_DIR -t $TRAIN_IMG_PATH -f $WORKING_DIR/Dockerfile
 
 ```
 
-push container to GCR
+push the newly build image to GCR
 
 ```
 docker push ${TRAIN_IMG_PATH}
