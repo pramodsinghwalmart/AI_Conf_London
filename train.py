@@ -122,12 +122,11 @@ if __name__ == '__main__':
     full_model, infer_enc_model, infer_dec_model = summary_model(hidden_size=hidden_size, batch_size=batch_size,
         ip_timesteps=ip_timesteps, op_timesteps=op_timesteps,ip_vsize=ip_vsize, op_vsize=op_vsize)
 
-    n_epochs = 1 if not debug else 1
+    n_epochs = 5 if not debug else 5
     train(full_model, ip_seq, op_seq, batch_size, n_epochs)
     print("trained")
 #save model
     full_model.save('summarizer.h5')
-    #full_model.save('/tmp/', save_format='tf')
     print("model built")
 
     args = parse_arguments()

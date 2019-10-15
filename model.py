@@ -65,5 +65,5 @@ def summary_model(hidden_size, batch_size, ip_timesteps, ip_vsize, op_timesteps,
 
 if __name__ == '__main__':
 
-    """ Checking summary model for toy examples """
+    """ Checking summary model """
     summary_model(64, None, 20, 30, 20, 20)
