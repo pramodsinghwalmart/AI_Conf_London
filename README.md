@@ -107,9 +107,8 @@ gcloud config set compute/zone ${ZONE}
 7. Connecting to the cluster
 
 ```
-gcloud container clusters get-credentials ${DEPLOYMENT_NAME} \
-    --project ${PROJECT_ID} \
-    --zone ${ZONE}
+gcloud container clusters get-credentials \
+    ${DEPLOYMENT_NAME} --zone ${ZONE} --project ${PROJECT}
 
 ```
 
