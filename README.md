@@ -2,6 +2,12 @@
 
 Presented at O'Reilly Artificial Intelligence Conference London :  "Deep learning and attention networks all the way to production" https://conferences.oreilly.com/artificial-intelligence/ai-eu/public/schedule/detail/78072
 
+
+## Authors
+1. Pramod Singh
+2. Akshay Kulkarni 
+
+
 ## Highlights of the session :
 
 <ol>
@@ -10,9 +16,11 @@ Presented at O'Reilly Artificial Intelligence Conference London :  "Deep learnin
 <li>Attention Networks for text summarization</li>
 <li>How to leverage Kubeflow for Industrialization</li>
 <ol>
-<li>Setup Kubeflow on GCP with Multi GPU Support enabled</li>
+<li>Setup Kubeflow on GCP </li>
 <li>Use TensorFlow 2.0 to create attention network</li>
-<li>Use Kubeflow Notebook Server for training on K8S cluster</li>
+<li>Use Kubeflow Notebook Server for training </li>
+<li>Containerize model for training at scale </li>
+<li>Save the trained model at GCS </li>
 </ol>
 </li>
 <li>Challenges and Future Work</li>
@@ -22,22 +30,19 @@ Presented at O'Reilly Artificial Intelligence Conference London :  "Deep learnin
    
 
 
-# Research Papers
+## Research Papers
 
-Text Summarization Using Attention Networks
-Investigating Capsule Networks with Dynamic Routing for Text Classification
+[Pascal Vincent, Hugo Larochelle, Isabelle Lajoie, Yoshua Bengio, and Pierre-
+Antoine Manzagol. “Stacked denoising autoencoders: Learning useful representations
+in a deep network with a local denoising criterion”]
 
-# Github Repos
+[Alan Akbik, Duncan Blythe and Roland Vollgraf ,”Contextual String Embeddings for Sequence Labeling” ]
 
-We have modified and adapted from following implementation and focused more on Kubeflow implementation for scalibility and performance.
 
-Capsnet with Pure Keras
-Capsnet for NLP with Keras
-Capsule Text Classification
 
-# Step-By-Step Guide for Running  Attention Network on Kubeflow
+# Step-By-Step Guide for Running Attention Network on Kubeflow
 
-1. Access the Code - Clone the github repo
+1. Access the Code - Clone the github repo into your google cloud shell 
 
 ```
 git clone https://github.com/pramodsinghwalmart/AI_Conf_London.git
@@ -51,7 +56,7 @@ cd AI_Conf_London
 
 ```
 
-3. set current working directory
+3. Set current working directory
 
 ```
 WORKING_DIR=$(pwd)
@@ -60,7 +65,7 @@ WORKING_DIR=$(pwd)
 
 4. Setup Kubeflow in GCP
 
-Make sure you have gcloud SDK is installed and pointing to the right GCP PROJECT. You can use gcloud init to perform this action.
+Make sure you have gcloud SDK is installed and pointing to the right GCP PROJECT. You can use 'gcloud init' to perform this action.
     
 ```
 gcloud components install kubectl
@@ -97,7 +102,7 @@ gcloud config set compute/zone ${ZONE}
 ```
 
 
-6. Use one-click deploy interface by GCP to setup kubeflow using https://deploy.kubeflow.cloud/#/ . Just fill Deployment Name (kubeflow) and Project ID and select appropriate GCP Zone(us-central1-a) . You can select Login with username and password to access Kubeflow service.Once the deployment is completed. You can connect to the cluster.
+6. Use one-click deploy interface by GCP to setup kubeflow using https://deploy.kubeflow.cloud/#/ . Just fill Deployment Name (kubeflow) and Project ID and select appropriate GCP Zone(us-central1-a) . You can select Login with username and password to access Kubeflow service.Once the deployment is completed, you can connect to the cluster.
 
 7. Connecting to the cluster
 
@@ -109,7 +114,7 @@ gcloud container clusters get-credentials ${DEPLOYMENT_NAME} \
 ```
 
 
-8. Set context
+8. Set context and create a namespace
 
 ```
 kubectl config set-context $(kubectl config current-context) --namespace=kubeflow
@@ -124,7 +129,7 @@ kubectl get all
 
 
 9. Install Kustomize 
-    Kubeflow makes use of kustomize to help manage deployments.We have the version 2.0.3 of kustomize available in the folder already.This tutorial does not work with later versions of kustomize, due to bug /kustomize/issues/1295.
+Kubeflow makes use of kustomize to help manage deployments.We have the version 2.0.3 of kustomize available in the folder already.This tutorial does not work with later versions of kustomize, due to bug /kustomize/issues/1295.
 
 ```
 cd kustomize
@@ -155,7 +160,7 @@ PATH=$PATH:$(pwd)/kustomize
 ```
 
 
-check if kustomize working 
+check if kustomize installed properly 
 
 
 ```
@@ -277,7 +282,7 @@ kustomize edit add configmap attention --from-literal=exportDir=gs://${BUCKET}/e
 ```
 
 14. Check the permissions for your training component 
-    You need to ensure that your Python code has the required permissions to read/write to your Cloud Storage bucket. Kubeflow solves this by creating a user service account within your project as a part of the deployment. You can use the following command to list the service accounts for your Kubeflow deployment
+You need to ensure that your Python code has the required permissions to read/write to your Cloud Storage bucket. Kubeflow solves this by creating a user service account within your project as a part of the deployment. You can use the following command to list the service accounts for your Kubeflow deployment
 
 
 
@@ -353,7 +358,7 @@ gcloud container images delete gcr.io/$PROJECT/${DEPLOYMENT_NAME}-train:latest
 
 Delete the bucket 
 ```
-gsutil rm -r gs://${BUCKET_NAME}
+gsutil rm -r gs://${BUCKET}
 
 ```
 
