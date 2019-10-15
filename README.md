@@ -108,8 +108,8 @@ gcloud config set compute/zone ${ZONE}
 
 ```
 gcloud container clusters get-credentials ${DEPLOYMENT_NAME} \
---project ${PROJECT_ID} \
---zone ${ZONE}
+    --project ${PROJECT_ID} \
+    --zone ${ZONE}
 
 ```
 
