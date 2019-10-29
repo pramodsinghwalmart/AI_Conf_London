@@ -4,8 +4,10 @@ Presented at O'Reilly Artificial Intelligence Conference London :  "Deep learnin
 
 
 ## Authors
-1. Pramod Singh
-2. Akshay Kulkarni 
+
+1. Dr. Vijay Agneeswaran
+2. Pramod Singh
+3. Akshay Kulkarni 
 
 
 ## Highlights of the session :
